@@ -146,7 +146,7 @@ public class AppIconCache {
         }
 
         //Use this to figure out which apps are missing custom icons
-        //Log.d("SAMIR", appInfo.getPackageName() + " " + appInfo.getHash());
+        //Log.d("SAMIR", appInfo.getPackageName() + " " + appInfo.getActivityName() + " " + appInfo.getHash());
 
         try {
             FileInputStream fileInputStream = new FileInputStream(getIconCacheFile());

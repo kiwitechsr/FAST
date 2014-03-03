@@ -52,16 +52,15 @@ public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
                     "jp.u1aryz.products.metrostation.activity.MainActivity",
                     "in.vineetsirohi.customwidget.WidgetEditorActivityNewInterface",
                     "com.teslacoilsw.launcher.prime.NovaLauncherPrimeActivity",
-                    "com.google.apps.dots.android.app.activity.CurrentsStartActivity",
-                    "com.touchtype.LauncherActivity",
-                    "com.tagstand.launcher.activity.MainActivity"};
+                    "com.orangepixel.chronocash.Startup",
+                    "org.forceofhabit.toasttime.DefaultGameActivity",
+                    "com.rocketjump.unityomniture.OmnitureUnityPlayerNativeActivity"};
             List<String> excludeList = Arrays.asList(excludeActivities);
             appCount = resolveInfoList.size();
             for (ResolveInfo info : resolveInfoList) {
                 AppInfo actAppInfo = new AppInfo(ctx, info);
                 if (!ctx.getPackageName().equals(actAppInfo.getPackageName())
                         && !excludeList.contains(actAppInfo.getActivityName())) { // ignore self
-                    // TODO: SAMIR - remove unwanted packages
                     // Update call count from current index that is being used.
                     // This is because we may have updated the call count since the last time
                     // we saved the package list. An alternative would be to save the package list
