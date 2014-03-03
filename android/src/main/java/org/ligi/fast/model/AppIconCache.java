@@ -8,8 +8,8 @@ import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
+import android.util.Log;
 import org.ligi.fast.App;
-import org.ligi.tracedroid.logging.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,7 +33,7 @@ public class AppIconCache {
         PackageManager packageManager = ctx.getPackageManager();
 
         if (packageManager == null) {
-            Log.w("could not cache the Icon - PM is null");
+            Log.d("SAMIR", "could not cache the Icon - PM is null");
             return;
         }
 
@@ -103,7 +103,7 @@ public class AppIconCache {
             }
             return true;
         } catch (Exception e) {
-            Log.w(" Could not cache the Icon" + e);
+            Log.d("SAMIR", " Could not cache the Icon" + e);
             return false;
         }
     }
@@ -137,11 +137,24 @@ public class AppIconCache {
 
         try {
             FileInputStream fileInputStream = new FileInputStream(getIconCacheFile());
+            BitmapDrawable drawable = (BitmapDrawable)ctx.getResources().getDrawable(ctx.getResources()
+                    .getIdentifier("ic_" + appInfo.getHash(), "drawable", ctx.getPackageName()));
+            cachedIcon = new SoftReference<Drawable>(drawable);
+            return cachedIcon.get();
+        } catch (Exception e) {
+            // no custom icon, load cached icon
+        }
+
+        //Use this to figure out which apps are missing custom icons
+        //Log.d("SAMIR", appInfo.getPackageName() + " " + appInfo.getHash());
+
+        try {
+            FileInputStream fileInputStream = new FileInputStream(getIconCacheFile());
             BitmapDrawable drawable = new BitmapDrawable(ctx.getResources(), fileInputStream);
             cachedIcon = new SoftReference<Drawable>(drawable);
             return cachedIcon.get();
         } catch (Exception e) {
-            Log.w("Could not load the cached Icon" + getIconCacheFile().getAbsolutePath() + " reason " + e);
+            Log.d("SAMIR", "Could not load the cached Icon" + getIconCacheFile().getAbsolutePath() + " reason " + e);
         }
 
         // if we came here we we could not return the cached Icon - ty to rescue situation

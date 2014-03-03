@@ -6,7 +6,6 @@ import android.app.Application;
 import org.ligi.fast.model.AppInfo;
 import org.ligi.fast.settings.AndroidFASTSettings;
 import org.ligi.fast.settings.FASTSettings;
-import org.ligi.tracedroid.TraceDroid;
 
 import java.io.File;
 import java.util.List;
@@ -28,7 +27,6 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         appInstance = this;
-        TraceDroid.init(this);
         settings = new AndroidFASTSettings(App.this);
     }
 
@@ -51,7 +49,7 @@ public class App extends Application {
     }
 
     public final static String getStoreURL4PackageName(String pname) {
-        return TargetStore.STORE_URL + pname;
+        return "http://www.google.com";
     }
 
     public  static File getBaseDir() {

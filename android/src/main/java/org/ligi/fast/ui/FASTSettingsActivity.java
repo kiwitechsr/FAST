@@ -13,7 +13,6 @@ import android.view.Window;
 import org.ligi.axt.helpers.FileHelper;
 import org.ligi.fast.App;
 import org.ligi.fast.R;
-import org.ligi.fast.TargetStore;
 import org.ligi.fast.settings.FASTSettings;
 
 /**
@@ -52,11 +51,11 @@ public class FASTSettingsActivity extends PreferenceActivity {
         doSearchInPackage.setSummary(R.string.also_use_the_package_name_for_searching);
         doSearchInPackage.setDefaultValue(false);
 
-        CheckBoxPreference marketForAllApps = new CheckBoxPreference(this);
-        marketForAllApps.setKey(FASTSettings.KEY_MARKETFORALL);
-        marketForAllApps.setTitle("" + String.format(getResources().getString(R.string.open_in_for_all), TargetStore.STORE_NAME));
-        marketForAllApps.setSummary(R.string.even_if_installed_another_way);
-        marketForAllApps.setDefaultValue(false);
+//        CheckBoxPreference marketForAllApps = new CheckBoxPreference(this);
+//        marketForAllApps.setKey(FASTSettings.KEY_MARKETFORALL);
+//        marketForAllApps.setTitle("" + String.format(getResources().getString(R.string.open_in_for_all), TargetStore.STORE_NAME));
+//        marketForAllApps.setSummary(R.string.even_if_installed_another_way);
+//        marketForAllApps.setDefaultValue(false);
 
         CheckBoxPreference textOnly = new CheckBoxPreference(this);
         textOnly.setKey(FASTSettings.KEY_TEXTONLY);
@@ -92,7 +91,7 @@ public class FASTSettingsActivity extends PreferenceActivity {
         sortPref.setSummary(getString(R.string.sort_decr));
         sortPref.setEntries(R.array.sort_orders);
         sortPref.setEntryValues(new CharSequence[]{"unsorted", "alpha", "most_used"});
-        sortPref.setDefaultValue("unsorted");
+        sortPref.setDefaultValue("alpha");
 
         ListPreference themePref = new ListPreference(this);
         themePref.setKey(FASTSettings.KEY_THEME);
@@ -126,7 +125,7 @@ public class FASTSettingsActivity extends PreferenceActivity {
         ignoreSpace.setKey(FASTSettings.KEY_IGNORESPACEAFTERQUERY);
         ignoreSpace.setTitle(R.string.ignore_space);
         ignoreSpace.setSummary(R.string.ignore_space_descr);
-        ignoreSpace.setDefaultValue(false);
+        ignoreSpace.setDefaultValue(true);
 
         CheckBoxPreference autoShowKeyboard = new CheckBoxPreference(this);
         autoShowKeyboard.setKey(FASTSettings.KEY_SHOWKEYBOARDONSTART);
@@ -145,7 +144,7 @@ public class FASTSettingsActivity extends PreferenceActivity {
         root.addPreference(doLaunchSingleCheckBox);
         root.addPreference(doSearchInPackage);
         root.addPreference(finishAfterLaunch);
-        root.addPreference(marketForAllApps);
+//        root.addPreference(marketForAllApps);
         root.addPreference(textOnly);
         root.addPreference(sortPref);
         root.addPreference(ignoreSpace);

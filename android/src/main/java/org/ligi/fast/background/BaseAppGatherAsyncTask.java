@@ -5,10 +5,11 @@ import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.os.AsyncTask;
 
+import android.util.Log;
 import org.ligi.fast.model.AppInfo;
-import org.ligi.tracedroid.logging.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -37,12 +38,30 @@ public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
 
         try {
             List<ResolveInfo> resolveInfoList = ctx.getPackageManager().queryIntentActivities(mainIntent, 0);
+            String[] excludeActivities = {
+                    "com.android.mms.ui.ConversationList",
+                    "com.google.android.youtube.videos.EntryPoint",
+                    "com.google.android.apps.plus.phone.ConversationListActivity",
+                    "com.google.android.gms.app.settings.GoogleSettingsActivity",
+                    "com.android.launcher2.Launcher",
+                    "com.motorola.genie.app.DashboardActivity",
+                    "com.google.android.gms.games.ui.destination.main.MainActivity",
+                    "com.motorola.frictionless.writer.MigrateLaunchActivity",
+                    "com.motorola.contextaware.ui.GalleryActivity",
+                    "com.painless.pc.settings.LaunchActivity",
+                    "jp.u1aryz.products.metrostation.activity.MainActivity",
+                    "in.vineetsirohi.customwidget.WidgetEditorActivityNewInterface",
+                    "com.teslacoilsw.launcher.prime.NovaLauncherPrimeActivity",
+                    "com.google.apps.dots.android.app.activity.CurrentsStartActivity",
+                    "com.touchtype.LauncherActivity",
+                    "com.tagstand.launcher.activity.MainActivity"};
+            List<String> excludeList = Arrays.asList(excludeActivities);
             appCount = resolveInfoList.size();
             for (ResolveInfo info : resolveInfoList) {
                 AppInfo actAppInfo = new AppInfo(ctx, info);
-
-                if (!ctx.getPackageName().equals(actAppInfo.getPackageName())) { // ignore self
-
+                if (!ctx.getPackageName().equals(actAppInfo.getPackageName())
+                        && !excludeList.contains(actAppInfo.getActivityName())) { // ignore self
+                    // TODO: SAMIR - remove unwanted packages
                     // Update call count from current index that is being used.
                     // This is because we may have updated the call count since the last time
                     // we saved the package list. An alternative would be to save the package list
@@ -60,7 +79,7 @@ public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
                 }
             }
         } catch (Exception e) {
-            Log.d("Exception occurred when getting activities skipping...!");
+            Log.d("SAMIR", "Exception occurred when getting activities skipping...!");
         }
 
         return null;

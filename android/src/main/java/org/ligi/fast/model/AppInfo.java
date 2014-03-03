@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 
+import android.util.Log;
 import org.ligi.axt.helpers.ResolveInfoHelper;
 import org.ligi.fast.util.UmlautConverter;
-import org.ligi.tracedroid.logging.Log;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -98,7 +98,7 @@ public class AppInfo {
             return hexString.toString();
 
         } catch (NoSuchAlgorithmException e) {
-            Log.w("MD5 not found - having a fallback - but really - no MD5 - where the f** am I?");
+            Log.e("SAMIR", "MD5 not found - having a fallback - but really - no MD5 - where the f** am I?");
             return packageName; // fallback
         }
     }
@@ -128,7 +128,7 @@ public class AppInfo {
     }
 
     public String getActivityName() {
-        return packageName;
+        return activityName;
     }
 
     public String getLabel() {

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FAST App Search Tool</string>
+    <string name="app_name">finder</string>
     <string name="icon">Icon</string>
     <string name="launch_single">Auto launch</string>
     <string name="settings">Settings</string>

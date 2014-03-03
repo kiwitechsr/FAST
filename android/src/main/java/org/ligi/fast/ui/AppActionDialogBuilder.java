@@ -17,11 +17,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 
+import android.util.Log;
 import org.ligi.fast.App;
 import org.ligi.fast.model.AppInfo;
 import org.ligi.fast.R;
-import org.ligi.fast.TargetStore;
-import org.ligi.tracedroid.logging.Log;
 
 import java.util.ArrayList;
 
@@ -51,36 +50,36 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
 
         fkt_map.add(new LabelAndCode(context.getString(R.string.open_as_notification), new OpenAsNotificationRunnable()));
 
-        if (App.getSettings().isMarketForAllActivated() || isMarketApp()) {
-            fkt_map.add(new LabelAndCode(context.getString(R.string.open_in) + " " + TargetStore.STORE_NAME, new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        context.startActivity(new Intent(
-                                Intent.ACTION_VIEW,
-                                Uri.parse(TargetStore.STORE_URL + app_info.getPackageName())));
-                    } catch (android.content.ActivityNotFoundException anfe) {
+//        if (App.getSettings().isMarketForAllActivated() || isMarketApp()) {
+//            fkt_map.add(new LabelAndCode(context.getString(R.string.open_in) + " " + TargetStore.STORE_NAME, new Runnable() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        context.startActivity(new Intent(
+//                                Intent.ACTION_VIEW,
+//                                Uri.parse(TargetStore.STORE_URL + app_info.getPackageName())));
+//                    } catch (android.content.ActivityNotFoundException anfe) {
+//
+//                    }
+//                }
+//            }));
+//        }
 
-                    }
-                }
-            }));
-        }
-
-        fkt_map.add(new LabelAndCode(context.getString(R.string.share), new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    String message = "check out this app: " + App.getStoreURL4PackageName(app_info.getPackageName());
-                    Intent share = new Intent(Intent.ACTION_SEND);
-                    share.setType("text/plain");
-                    share.putExtra(Intent.EXTRA_TEXT, message);
-
-                    context.startActivity(Intent.createChooser(share, "Share FAST"));
-                } catch (android.content.ActivityNotFoundException anfe) {
-
-                }
-            }
-        }));
+//        fkt_map.add(new LabelAndCode(context.getString(R.string.share), new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    String message = "check out this app: " + App.getStoreURL4PackageName(app_info.getPackageName());
+//                    Intent share = new Intent(Intent.ACTION_SEND);
+//                    share.setType("text/plain");
+//                    share.putExtra(Intent.EXTRA_TEXT, message);
+//
+//                    context.startActivity(Intent.createChooser(share, "Share FAST"));
+//                } catch (android.content.ActivityNotFoundException anfe) {
+//
+//                }
+//            }
+//        }));
 
         if (hasShortCutPermission()) {
             fkt_map.add(new LabelAndCode(context.getString(R.string.create_shortcut), new CreateShortCutRunnable()));
@@ -144,13 +143,12 @@ public class AppActionDialogBuilder extends AlertDialog.Builder {
             PackageManager packageManager = context.getPackageManager();
 
             if (packageManager == null) {
-                Log.w("strange - there was no PackageManager - might lie to the user now with false"
+                Log.d("SAMIR", "strange - there was no PackageManager - might lie to the user now with false"
                         + "as I cannot determine the correct answer to the question isMarketApp()");
                 return false;
             }
 
-            String installer_pkg = packageManager.getInstallerPackageName(app_info.getPackageName());
-            return installer_pkg != null && installer_pkg.startsWith(TargetStore.STORE_PNAME);
+            return false;
         } catch (Exception e) {
             return false;
         }

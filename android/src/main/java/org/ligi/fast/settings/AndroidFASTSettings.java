@@ -33,12 +33,12 @@ public class AndroidFASTSettings implements FASTSettings {
     }
 
     public boolean isIgnoreSpaceAfterQueryActivated() {
-        return mSharedPreferences.getBoolean(KEY_IGNORESPACEAFTERQUERY, false);
+        return mSharedPreferences.getBoolean(KEY_IGNORESPACEAFTERQUERY, true);
     }
 
 
     public boolean isFinishOnLaunchEnabled() {
-        return mSharedPreferences.getBoolean(KEY_FINISH_ON_LAUNCH, false);
+        return mSharedPreferences.getBoolean(KEY_FINISH_ON_LAUNCH, true);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class AndroidFASTSettings implements FASTSettings {
     }
 
     public int getMaxLines() {
-        return Integer.parseInt(mSharedPreferences.getString(KEY_MAXLINES, "1"));
+        return Integer.parseInt(mSharedPreferences.getString(KEY_MAXLINES, "0"));
     }
 
     public String getIconSize() {
@@ -63,7 +63,7 @@ public class AndroidFASTSettings implements FASTSettings {
     }
 
     public String getSortOrder() {
-        return mSharedPreferences.getString(KEY_SORT, "unsorted");
+        return mSharedPreferences.getString(KEY_SORT, "most_used");
     }
 
     public boolean isGapSearchActivated() {

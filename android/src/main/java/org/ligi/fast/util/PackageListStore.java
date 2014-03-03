@@ -2,12 +2,12 @@ package org.ligi.fast.util;
 
 import android.content.Context;
 
+import android.util.Log;
 import org.ligi.axt.helpers.FileHelper;
 import org.ligi.fast.App;
 import org.ligi.fast.model.AppInfo;
 import org.ligi.fast.model.AppInfoList;
 import org.ligi.fast.ui.AppInfoAdapter;
-import org.ligi.tracedroid.logging.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -80,7 +80,7 @@ public class PackageListStore {
             file.createNewFile();
             new FileHelper(file).writeString(res.toString());
         } catch (IOException e) {
-            Log.w("could not save PackageList");
+            Log.d("SAMIR", "could not save PackageList");
         }
 
     }

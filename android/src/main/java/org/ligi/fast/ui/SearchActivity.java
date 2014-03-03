@@ -2,6 +2,7 @@ package org.ligi.fast.ui;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -13,12 +14,10 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.EditText;
-import android.widget.GridView;
-import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import org.ligi.axt.helpers.ViewHelper;
 import org.ligi.axt.simplifications.SimpleTextWatcher;
@@ -28,7 +27,6 @@ import org.ligi.fast.background.BackgroundGatherAsyncTask;
 import org.ligi.fast.model.AppInfo;
 import org.ligi.fast.model.AppInfoList;
 import org.ligi.fast.util.PackageListStore;
-import org.ligi.tracedroid.sending.TraceDroidEmailSender;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +67,19 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
 
         gridView = (GridView) findViewById(R.id.listView);
 
+        gridView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem,
+                                 int visibleItemCount, int totalItemCount) {
+            }
+
+            @Override
+            public void onScrollStateChanged(android.widget.AbsListView absListView, int scrollState) {
+                if (scrollState != SCROLL_STATE_TOUCH_SCROLL) return;
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(gridView.getWindowToken(), 0);
+            }
+        });
         /*getSupportActionBar().setDisplayOptions(
                 ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_USE_LOGO
                         | ActionBar.DISPLAY_SHOW_HOME);
@@ -91,7 +102,6 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
             }
 
         });
-        searchQueryEditText.setHint(R.string.query_hint);
 
         searchQueryEditText.addTextChangedListener(new SimpleTextWatcher() {
 
@@ -135,8 +145,6 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
 
         });
 
-        TraceDroidEmailSender.sendStackTraces("ligi@ligi.de", this);
-
         if (pkgAppsListTemp.size() == 0) {
             startActivityForResult(new Intent(this, LoadingDialog.class), R.id.activityResultLoadingDialog);
         } else { // the second time - we use the old index to be fast but
@@ -147,6 +155,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
             new BackgroundGatherAsyncTask(this, pkgAppsListTemp).execute();
             pkgAppsListTemp = new ArrayList<AppInfo>();
         }
+
     }
 
     private void startAppWhenItIstheOnlyOneInList(boolean was_adding) {
@@ -232,7 +241,6 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
 
     private void showKeyboard() {
         searchQueryEditText.requestFocus();
-
         searchQueryEditText.postDelayed(new Runnable() {
 
             @Override
