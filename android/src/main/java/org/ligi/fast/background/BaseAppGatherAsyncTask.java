@@ -54,6 +54,8 @@ public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
                     "com.teslacoilsw.launcher.prime.NovaLauncherPrimeActivity",
                     "com.orangepixel.chronocash.Startup",
                     "org.forceofhabit.toasttime.DefaultGameActivity",
+                    "com.unity3d.player.UnityPlayerNativeActivity",
+                    "com.android.stk.StkLauncherActivity",
                     "com.rocketjump.unityomniture.OmnitureUnityPlayerNativeActivity"};
             List<String> excludeList = Arrays.asList(excludeActivities);
             appCount = resolveInfoList.size();
