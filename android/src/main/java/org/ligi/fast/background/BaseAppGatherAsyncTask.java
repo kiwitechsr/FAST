@@ -50,12 +50,13 @@ public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
                     "com.motorola.contextaware.ui.GalleryActivity",
                     "com.painless.pc.settings.LaunchActivity",
                     "jp.u1aryz.products.metrostation.activity.MainActivity",
-                    "in.vineetsirohi.customwidget.WidgetEditorActivityNewInterface",
+                    "in.vineetsirohi.customwidget.WidgetEditorActivityNewInterface", // ultimate custom clock widget
                     "com.teslacoilsw.launcher.prime.NovaLauncherPrimeActivity",
-                    "com.orangepixel.chronocash.Startup",
-                    "org.forceofhabit.toasttime.DefaultGameActivity",
-                    "com.unity3d.player.UnityPlayerNativeActivity",
-                    "com.android.stk.StkLauncherActivity",
+                    "com.orangepixel.chronocash.Startup", // chrono and cash
+                    "org.forceofhabit.toasttime.DefaultGameActivity", // toast time
+                    "com.unity3d.player.UnityPlayerNativeActivity", // threes
+                    "com.android.stk.StkLauncherActivity", // sim toolkit
+                    "com.touchtype.LauncherActivity", // swiftkey
                     "com.rocketjump.unityomniture.OmnitureUnityPlayerNativeActivity"};
             List<String> excludeList = Arrays.asList(excludeActivities);
             appCount = resolveInfoList.size();
