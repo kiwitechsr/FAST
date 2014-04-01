@@ -1,19 +1,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/linearLayout">
-    <EditText
-        android:id="@+id/searchEditText"
+    android:orientation="vertical">
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="fill_parent"
-        android:layout_height="220dp"
+        android:layout_height="230dp"
         android:background="@color/black"
-        android:textAlignment="center"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        android:capitalize="characters"
-        android:inputType="text|textCapCharacters|textNoSuggestions"
-            />
+        />
     <GridView
         android:id="@+id/listView"
         android:layout_width="fill_parent"

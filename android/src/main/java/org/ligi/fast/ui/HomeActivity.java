@@ -1,23 +1,19 @@
 package org.ligi.fast.ui;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.content.*;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.InputType;
 import android.util.Log;
-import android.view.*;
-import android.view.inputmethod.EditorInfo;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.TextView.OnEditorActionListener;
-import org.ligi.axt.helpers.ViewHelper;
-import org.ligi.axt.simplifications.SimpleTextWatcher;
 import org.ligi.fast.App;
 import org.ligi.fast.R;
 import org.ligi.fast.background.BackgroundGatherAsyncTask;
@@ -27,12 +23,11 @@ import org.ligi.fast.util.PackageListStore;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * The main Activity for this App - most things come together here
  */
-public class SearchActivity extends Activity implements App.PackageChangedListener {
+public class HomeActivity extends Activity implements App.PackageChangedListener {
 
     private List<AppInfo> pkgAppsListTemp;
     private AppInfoAdapter adapter;
@@ -51,9 +46,14 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        setContentView(R.layout.activity_search);
+        setContentView(R.layout.activity_home);
+
+//        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.main_title);
 
         TYPEFACE.init(this);
+
+        ImageView titleView = (ImageView)findViewById(R.id.imageView);
+        titleView.setImageDrawable(new TimeDrawable());
 
         packageListStore = new PackageListStore(this);
 
@@ -83,38 +83,36 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
                         | ActionBar.DISPLAY_SHOW_HOME);
           */
 
-        searchQueryEditText = (EditText) findViewById(R.id.searchEditText);
-        searchQueryEditText.setSingleLine();
-        searchQueryEditText.setImeOptions(EditorInfo.IME_ACTION_DONE | EditorInfo.IME_FLAG_NO_EXTRACT_UI);
-        searchQueryEditText.setImeActionLabel("Launch", EditorInfo.IME_ACTION_DONE);
-        searchQueryEditText.setTypeface(TYPEFACE.halloBlack());
-        searchQueryEditText.setTextSize(60);
-
-        searchQueryEditText.setOnEditorActionListener(new OnEditorActionListener() {
-
-            @Override
-            public boolean onEditorAction(TextView v, int actionId,
-                                          KeyEvent event) {
-                if (adapter.getCount() > 0) {
-                    startItemAtPos(0);
-                }
-                return true;
-            }
-
-        });
-
-        searchQueryEditText.addTextChangedListener(new SimpleTextWatcher() {
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                final String editString = s.toString();
-                final boolean was_adding = oldSearch.length() < editString.length();
-                oldSearch = editString.toLowerCase(Locale.ENGLISH);
-                adapter.setActQuery(editString.toLowerCase(Locale.ENGLISH));
-                startAppWhenItIstheOnlyOneInList(was_adding);
-            }
-
-        });
+//        searchQueryEditText = (EditText) findViewById(R.id.searchEditText);
+//        searchQueryEditText.setSingleLine();
+//        searchQueryEditText.setImeOptions(EditorInfo.IME_ACTION_DONE | EditorInfo.IME_FLAG_NO_EXTRACT_UI);
+//        searchQueryEditText.setImeActionLabel("Launch", EditorInfo.IME_ACTION_DONE);
+//
+//        searchQueryEditText.setOnEditorActionListener(new OnEditorActionListener() {
+//
+//            @Override
+//            public boolean onEditorAction(TextView v, int actionId,
+//                                          KeyEvent event) {
+//                if (adapter.getCount() > 0) {
+//                    startItemAtPos(0);
+//                }
+//                return true;
+//            }
+//
+//        });
+//
+//        searchQueryEditText.addTextChangedListener(new SimpleTextWatcher() {
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                final String editString = s.toString();
+//                final boolean was_adding = oldSearch.length() < editString.length();
+//                oldSearch = editString.toLowerCase(Locale.ENGLISH);
+//                adapter.setActQuery(editString.toLowerCase(Locale.ENGLISH));
+//                startAppWhenItIstheOnlyOneInList(was_adding);
+//            }
+//
+//        });
         // getSupportActionBar().setCustomView(search_et);
 
         gridView.setOnItemClickListener(new OnItemClickListener() {
@@ -139,7 +137,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                            int pos, long arg3) {
-                new AppActionDialogBuilder(SearchActivity.this, adapter.getList().get(pos)).show();
+                new AppActionDialogBuilder(HomeActivity.this, adapter.getList().get(pos)).show();
                 return true;
             }
 
@@ -181,7 +179,10 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         Log.d(App.LOG_TAG, "Starting " + app.getActivityName() + " (and incremented call count to " + app.getCallCount() + ")");
         startActivity(intent);
-        finish();
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        if (App.getSettings().isFinishOnLaunchEnabled()) {
+            finish();
+        }
     }
 
 
@@ -200,12 +201,12 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
     @Override
     protected void onResume() {
         super.onResume();
-
+        findViewById(R.id.imageView).invalidate();
         App.packageChangedListener = this;
 
-        searchQueryEditText.setText(""); // using the app showed that we want a new search here and the old stuff is not interesting anymore
+//        searchQueryEditText.setText(""); // using the app showed that we want a new search here and the old stuff is not interesting anymore
 
-        dealWithUserPreferencesRegardingSoftKeyboard();
+//        dealWithUserPreferencesRegardingSoftKeyboard();
 
         configureAdapter();
         gridView.setAdapter(adapter);
@@ -224,24 +225,34 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
     }
 
     private void dealWithUserPreferencesRegardingSoftKeyboard() {
-        showKeyboard();
+        if (App.getSettings().isShowKeyBoardOnStartActivated()) {
+            showKeyboard();
+        } else {
+            hideKeyboard();
+        }
+
     }
 
     private void hideKeyboard() {
-        searchQueryEditText.clearFocus();
+//        searchQueryEditText.clearFocus();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     private void showKeyboard() {
-        searchQueryEditText.requestFocus();
-        searchQueryEditText.postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                new ViewHelper(searchQueryEditText).showKeyboard();
-            }
-        }, 200);
-
+//        searchQueryEditText.requestFocus();
+//        searchQueryEditText.postDelayed(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                new ViewHelper(searchQueryEditText).showKeyboard();
+//            }
+//        }, 200);
+        InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.showSoftInput(findViewById(R.id.imageView), 0);
+        } else {
+            Log.w("AndroidHelper", "could not show Keyboard as INPUT_METHOD_SERVICE is not available");
+        }
 
     }
 
@@ -272,7 +283,8 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
 
     @Override
     public void onBackPressed() {
-        finish();
+        finishIfWeAreNotTheDefaultLauncher();
+
     }
 
     private void finishIfWeAreNotTheDefaultLauncher() {
@@ -299,9 +311,9 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
             @Override
             public void run() {
 
-                adapter = new AppInfoAdapter(SearchActivity.this, list);
+                adapter = new AppInfoAdapter(HomeActivity.this, list);
                 configureAdapter();
-                adapter.setActQuery(searchQueryEditText.getText().toString().toLowerCase(Locale.ENGLISH));
+                //adapter.setActQuery(searchQueryEditText.getText().toString().toLowerCase(Locale.ENGLISH));
                 gridView.setAdapter(adapter);
             }
         });
@@ -333,7 +345,7 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
             public void onReceive(Context ctx, Intent intent)
             {
                 if (intent.getAction().compareTo(Intent.ACTION_TIME_TICK) == 0) {
-                    (findViewById(R.id.imageView)).invalidate();
+                    ((ImageView)findViewById(R.id.imageView)).invalidate();
                 }
             }
         };
@@ -342,7 +354,8 @@ public class SearchActivity extends Activity implements App.PackageChangedListen
     }
 
     @Override
-    public void finish() {
-        super.finish();
+    public void onRestart() {
+        super.onRestart();
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 }

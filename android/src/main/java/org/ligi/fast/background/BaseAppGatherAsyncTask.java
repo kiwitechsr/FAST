@@ -57,7 +57,9 @@ public class BaseAppGatherAsyncTask extends AsyncTask<Void, AppInfo, Void> {
                     "com.unity3d.player.UnityPlayerNativeActivity", // threes
                     "com.android.stk.StkLauncherActivity", // sim toolkit
                     "com.touchtype.LauncherActivity", // swiftkey
-                    "com.rocketjump.unityomniture.OmnitureUnityPlayerNativeActivity"};
+                    "com.google.android.apps.docs.quickoffice.HomeActivity", // quick office
+                    "com.rocketjump.unityomniture.OmnitureUnityPlayerProxyActivity" // major mayhem
+                    };
             List<String> excludeList = Arrays.asList(excludeActivities);
             appCount = resolveInfoList.size();
             for (ResolveInfo info : resolveInfoList) {

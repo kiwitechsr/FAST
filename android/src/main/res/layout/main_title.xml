@@ -1,27 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="@dimen/actionbar_height"
+    android:layout_height="200dp"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="2dp"
-        android:paddingLeft="@dimen/padding_medium"
-        android:paddingRight="@dimen/padding_medium">
-
-        <EditText
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:id="@+id/searchEditText"
-            android:paddingLeft="@dimen/padding_large"
-            android:textSize="24dp"
-            android:inputType="textNoSuggestions"
-            android:textColor="?android:textColor" />
-
-    </LinearLayout>
 
 </LinearLayout>

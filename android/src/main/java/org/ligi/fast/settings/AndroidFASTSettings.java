@@ -38,12 +38,12 @@ public class AndroidFASTSettings implements FASTSettings {
 
 
     public boolean isFinishOnLaunchEnabled() {
-        return mSharedPreferences.getBoolean(KEY_FINISH_ON_LAUNCH, true);
+        return mSharedPreferences.getBoolean(KEY_FINISH_ON_LAUNCH, false);
     }
 
     @Override
     public boolean isShowKeyBoardOnStartActivated() {
-        return mSharedPreferences.getBoolean(KEY_SHOWKEYBOARDONSTART, true);
+        return mSharedPreferences.getBoolean(KEY_SHOWKEYBOARDONSTART, false);
     }
 
     public boolean isTextOnlyActivated() {
