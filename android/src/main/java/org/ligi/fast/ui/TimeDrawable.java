@@ -54,7 +54,7 @@ public class TimeDrawable extends Drawable{
         mFontPaint.setTextSize(128);
         mFontPaint.setTypeface(TYPEFACE.halloRegular());
         mFontPaint.getTextBounds(min, 0, min.length(), rect);
-        width+= rect.width() + 40;
+        width+= rect.width() + 20;
 
         mFontPaint.setTextSize(72);
         mFontPaint.setTypeface(TYPEFACE.halloBlack());
@@ -78,7 +78,7 @@ public class TimeDrawable extends Drawable{
         mFontPaint.setTypeface(TYPEFACE.halloRegular());
         canvas.drawText(min, pos, canvas.getHeight() * 0.5f + 20f, mFontPaint);
         mFontPaint.getTextBounds(min, 0, min.length(), rect);
-        pos += rect.width() + 40;
+        pos += rect.width() + 20;
 
         mFontPaint.setTextSize(72);
         mFontPaint.setTypeface(TYPEFACE.halloBlack());
