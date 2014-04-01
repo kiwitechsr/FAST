@@ -345,7 +345,7 @@ public class HomeActivity extends Activity implements App.PackageChangedListener
             public void onReceive(Context ctx, Intent intent)
             {
                 if (intent.getAction().compareTo(Intent.ACTION_TIME_TICK) == 0) {
-                    ((ImageView)findViewById(R.id.imageView)).invalidate();
+                    (findViewById(R.id.imageView)).invalidate();
                 }
             }
         };
